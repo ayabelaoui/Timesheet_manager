@@ -1,0 +1,25 @@
+<nav class="navbar">
+    <div class="app-title" routerLink="/">Timesheet & Absence Manager</div>
+
+    <div class="nav-controls">
+        <button (click)="previousMonth()">Previous</button>
+        <span>{{ currentMonth }} {{ currentYear }}</span>
+        <button (click)="nextMonth()">Next</button>
+    </div>
+
+    <div class="auth-actions">
+        <!-- Affichage dynamique basé sur l'état de connexion -->
+        <ng-container *ngIf="!(authService.isAuthenticated$ | async); else authenticatedLinks">
+            <a routerLink="/home" [class.active]="isActive('/home')">Home</a>
+            <a routerLink="/register" [class.active]="isActive('/register')">Register</a>
+            <a routerLink="/login" [class.active]="isActive('/login')">Login</a>
+        </ng-container>
+
+        <ng-template #authenticatedLinks>
+            <a routerLink="/timesheet" [class.active]="isActive('/timesheet')">Timesheet</a>
+            <a (click)="logout()" class="logout-btn">Logout</a>
+            <span *ngIf="authService.hasRole('admin')" class="admin-badge">Admin</span>
+            <button (click)="switchRole()" *ngIf="showRoleSwitch">Switch Role</button>
+        </ng-template>
+    </div>
+</nav>

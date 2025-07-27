@@ -1,0 +1,109 @@
+<div class="timesheet-container">
+    <div class="header">
+        <div class="month-navigation">
+            <button (click)="previousMonth()">← Previous</button>
+            <h2>{{ getMonthName() }} {{ currentYear }}</h2>
+            <button (click)="nextMonth()">Next →</button>
+        </div>
+
+        <div class="user-controls">
+            <div class="user-info">
+                <span class="user-name">{{ currentUser.name }}</span>
+                <span class="user-role">{{ currentUser.role | titlecase }}</span>
+            </div>
+
+            <!-- For demo only - remove in production -->
+            <button (click)="switchRole()" class="role-switch">
+                Switch Role
+            </button>
+        </div>
+    </div>
+
+    
+    <table class="calendar-table">
+        <thead>
+            <tr>
+                <th *ngFor="let day of daysOfWeek">{{ day }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <ng-container *ngFor="let week of weeks">
+                <tr class="date-row">
+                    <td *ngFor="let date of week.dates" [class.holiday]="date !== null && isHoliday(date)">
+                        {{ date !== null ? date : '' }}
+                    </td>
+                </tr>
+                <tr class="hours-row">
+                    <td *ngFor="let date of week.dates"   >
+                        <input id="day{{ date }}" name="day{{ date }}"  [disabled]="isToBeDisabled(date)" *ngIf="date !== null" type="number" [(ngModel)]="hours[date]"
+                            (ngModelChange)="saveHoursToLocalStorage()" min="0" max="24" class="hours-input" [class.holiday]="isHoliday(date)">
+                    <div *ngIf="date !== null && isHoliday(date)" class="holiday-label">
+                    Holiday
+                    </div>
+                        </td>
+                </tr>
+            </ng-container>
+        </tbody>
+    </table>
+
+    <div class="footer">
+        <p class="total-hours">Total Hours: {{ getTotalHours() }}</p>
+        <div class="actions">
+            <button *ngIf="isUser && isTimesheetStatusDraft"  (click)="saveDraft()" class="save-button">Save Draft</button>
+            <button *ngIf="isUser  && isTimesheetStatusDraft" (click)="submit()" class="admin-button">Submit</button>
+            <button *ngIf="isAdmin && isTimesheetStatusDraft" (click)="loadDrafts()" class="admin-button">View Drafts</button>
+            <!-- USER : Save Draft + Submit -->
+
+        </div>
+    </div>
+
+    
+
+    <div *ngIf="isAdmin && drafts.length > 0" class="drafts-section">
+        <h3>Saved Drafts</h3>
+        <table class="drafts-table">
+            <thead>
+                <tr>
+                    <th>Month</th>
+                    <th>Year</th>
+                    <th>Saved By</th>
+                    <th>Saved At</th>
+                    <th>Total Hours</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let draft of drafts">
+                    <td>{{ months[draft.month].name }}</td>
+                    <td>{{ draft.year }}</td>
+                    <td>{{ draft.savedBy }}</td>
+                    <td>{{ draft.savedAt | date:'short' }}</td>
+                    <td>{{ getDraftTotal(draft.hours) }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<!--<div *ngFor="let week of weeks">
+    <div *ngFor="let date of week.dates" class="day-cell">
+        <input *ngIf="date !== null" type="number" [disabled]="userRole !== 'USER'" [(ngModel)]="hours[date]"
+            (ngModelChange)="userRole === 'USER' ? saveHours(date) : null" min="0" max="24"
+            [ngStyle]="{ 'background-color': userRole !== 'USER' ? '#e0e0e0' : 'white' }" />
+    </div>
+</div>-->
+<div *ngIf="isApprobateur && !isTimesheetStatusApproved" class="remarks-section">
+    <label for="remarks">Remarques :</label>
+    <textarea id="remarks" [(ngModel)]="remarks" rows="3" cols="30"></textarea>
+</div>
+
+
+<!-- APPROBATEUR : Approuver + Rejeter -->
+<div *ngIf="isApprobateur  && !isTimesheetStatusApproved" class="actions btn-group">
+    <button (click)="approve()">Approuver ✅</button>
+    <button (click)="reject()">Rejeter ❌</button>
+</div>
+
+<div class="status">
+    <p>
+    <strong>Statut :</strong> {{ timesheetStatus }}
+    </p>
+</div>

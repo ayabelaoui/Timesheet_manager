@@ -1,0 +1,105 @@
+.container {
+    max-width: 900px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: #f4f7fa;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 1.5rem;
+}
+
+.feuille-card {
+    background: white;
+    border: 1px solid #ddd;
+    border-left: 5px solid #007bff;
+    padding: 1.5rem;
+    margin-bottom: 1.2rem;
+    border-radius: 8px;
+    transition: box-shadow 0.3s ease;
+}
+
+.feuille-card:hover {
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+}
+
+.feuille-info {
+    margin-bottom: 1rem;
+    color: #444;
+    font-size: 15px;
+}
+
+.button-group {
+    display: flex;
+    gap: 10px;
+}
+
+button {
+    padding: 8px 14px;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+button.valider {
+    background-color: #28a745;
+    color: white;
+}
+
+button.valider:hover {
+    background-color: #218838;
+}
+
+button.rejeter {
+    background-color: #dc3545;
+    color: white;
+}
+
+button.rejeter:hover {
+    background-color: #c82333;
+}
+
+.rejet-form {
+    margin-top: 1rem;
+    background-color: #fff3f3;
+    border: 1px solid #e0a0a0;
+    padding: 1rem;
+    border-radius: 8px;
+}
+
+.rejet-form label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+    color: #b30000;
+}
+
+.rejet-form textarea {
+    width: 100%;
+    padding: 0.8rem;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    resize: vertical;
+    margin-bottom: 0.8rem;
+}
+
+button.submit-rejet {
+    background-color: #b30000;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+button.submit-rejet:hover {
+    background-color: #990000;
+}

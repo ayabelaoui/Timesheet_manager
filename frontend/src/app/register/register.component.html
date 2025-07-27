@@ -1,0 +1,74 @@
+<div class="register-container">
+    <h2>Create an Account</h2>
+
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="register-form">
+        <!-- Email -->
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" formControlName="email">
+            <div class="error-messages">
+                <div *ngIf="email?.invalid && (email?.touched || email?.dirty)">
+                    <div *ngIf="email?.errors?.['required']">Email is required</div>
+                    <div *ngIf="email?.errors?.['email']">Please enter a valid email</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Password -->
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" formControlName="password">
+            <div class="error-messages">
+                <div *ngIf="password?.invalid && (password?.touched || password?.dirty)">
+                    <div *ngIf="password?.errors?.['required']">Password is required</div>
+                    <div *ngIf="password?.errors?.['minlength']">
+                        Password must be at least 8 characters
+                    </div>
+                    <div *ngIf="password?.errors?.['pattern']">
+                        Must contain uppercase, lowercase and number
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Name -->
+        <div class="form-group">
+            <label for="name">Full Name</label>
+            <input type="text" id="name" formControlName="name">
+            <div class="error-messages">
+                <div *ngIf="name?.invalid && (name?.touched || name?.dirty)">
+                    <div *ngIf="name?.errors?.['required']">Name is required</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Phone -->
+        <div class="form-group">
+            <label for="phone">Phone Number</label>
+            <input type="tel" id="phone" formControlName="phone">
+            <div class="error-messages">
+                <div *ngIf="phone?.invalid && (phone?.touched || phone?.dirty)">
+                    <div *ngIf="phone?.errors?.['pattern']">Please enter only numbers</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Address -->
+        <div class="form-group">
+            <label for="address">Address (Optional)</label>
+            <input type="text" id="address" formControlName="address">
+        </div>
+
+        <!-- Error Display -->
+        <app-error-display [errors]="errors"></app-error-display>
+
+        <!-- Submit Button -->
+        <button type="submit" [disabled]="isLoading" class="submit-btn">
+            {{ isLoading ? 'Registering...' : 'Register' }}
+        </button>
+    </form>
+
+    <div class="login-link">
+        Already have an account? <a routerLink="/login">Login here</a>
+    </div>
+</div>

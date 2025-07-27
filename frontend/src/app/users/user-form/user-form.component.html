@@ -1,0 +1,76 @@
+<h1 mat-dialog-title>{{ isEdit ? 'Edit User' : 'Create User' }}</h1>
+<div mat-dialog-content>
+  <form [formGroup]="userForm">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Name</mat-label>
+      <input matInput formControlName="name">
+      <mat-error *ngIf="userForm.get('name')?.invalid">Name is required</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Email</mat-label>
+      <input matInput formControlName="email" type="email">
+      <mat-error *ngIf="userForm.get('email')?.invalid">Valid email is required</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Password</mat-label>
+      <input matInput formControlName="password" type="password">
+      <mat-error *ngIf="userForm.get('password')?.invalid">Password is required</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Address</mat-label>
+      <input matInput formControlName="address">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Phone</mat-label>
+      <input matInput formControlName="phone">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Social Insurance Number</mat-label>
+      <input matInput formControlName="socialInsuranceNumber">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Hire Date</mat-label>
+      <input matInput [matDatepicker]="picker" formControlName="hireDate">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+      <mat-error *ngIf="userForm.get('hireDate')?.invalid">Hire date is required</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Supervisor</mat-label>
+      <mat-select formControlName="supervisor" [compareWith]="compareUsers">
+        <mat-option [value]="null">None</mat-option>
+        <mat-option *ngFor="let supervisor of supervisors" [value]="supervisor">
+          {{ supervisor.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Hourly Rate</mat-label>
+      <input matInput type="number" formControlName="hourlyRate">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Roles</mat-label>
+      <mat-select formControlName="roles" multiple [compareWith]="compareRoles">
+        <mat-option *ngFor="let role of roles" [value]="role.id">
+          {{ role.name.replace('ROLE_', '') }}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="userForm.get('roles')?.invalid">At least one role is required</mat-error>
+    </mat-form-field>
+  </form>
+</div>
+<div mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">Cancel</button>
+  <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="userForm.invalid">
+    {{ isEdit ? 'Update' : 'Create' }}
+  </button>
+</div>

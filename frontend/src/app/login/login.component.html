@@ -1,0 +1,41 @@
+<div class="login-container">
+    <h2>Login page</h2>
+    
+    <app-error-display [errors]="errors"></app-error-display>
+    
+    <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input 
+          type="email" 
+          id="email" 
+          formControlName="email"
+          [class.invalid]="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
+        <div *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched" class="validation-error">
+          <div *ngIf="loginForm.get('email')?.errors?.['required']">Email is required</div>
+          <div *ngIf="loginForm.get('email')?.errors?.['email']">Please enter a valid email</div>
+        </div>
+      </div>
+  
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input 
+          type="password" 
+          id="password" 
+          formControlName="password"
+          [class.invalid]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
+        <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" class="validation-error">
+          Password is required
+        </div>
+      </div>
+  
+      <button type="submit" [disabled]="loginForm.invalid || isLoading">
+        {{ isLoading ? 'Logging in...' : 'Login' }}
+      </button>
+    </form>
+  
+    <div class="login-footer">
+      <p>Don't have an account? <a routerLink="/register">Register here</a></p>
+      <p><a routerLink="/forgot-password">Forgot password?</a></p>
+    </div>
+  </div>

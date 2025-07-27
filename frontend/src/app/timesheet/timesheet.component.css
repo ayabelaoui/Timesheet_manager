@@ -1,0 +1,322 @@
+/* Main container styles */
+.timesheet-container {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Header section */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.month-navigation {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.month-navigation h2 {
+    margin: 0;
+    color: #333;
+    font-size: 24px;
+    min-width: 200px;
+    text-align: center;
+}
+
+.month-navigation button {
+    background-color: #4a6fa5;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.month-navigation button:hover {
+    background-color: #3a5a8a;
+}
+
+/* User controls section */
+.user-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.user-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.user-name {
+    font-weight: bold;
+    color: #333;
+}
+
+.user-role {
+    font-size: 0.8em;
+    color: #666;
+    background-color: #e0e0e0;
+    padding: 2px 6px;
+    border-radius: 10px;
+}
+
+.logout-button {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: background-color 0.3s;
+}
+
+.logout-button:hover {
+    background-color: #c0392b;
+}
+
+.role-switch {
+    background-color: #9b59b6;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.role-switch:hover {
+    background-color: #8e44ad;
+}
+
+/* Calendar table styles */
+.calendar-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    background-color: white;
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.calendar-table th {
+    background-color: #4a6fa5;
+    color: white;
+    padding: 10px;
+    text-align: center;
+}
+
+.calendar-table td {
+    padding: 5px;
+    text-align: center;
+    border: 1px solid #e0e0e0;
+}
+
+.date-row td {
+    font-weight: bold;
+    height: 30px;
+    vertical-align: middle;
+}
+
+.hours-row td {
+    height: 40px;
+}
+
+.hours-input {
+    width: 60px;
+    padding: 5px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    text-align: center;
+    font-size: 14px;
+}
+
+.hours-input:focus {
+    outline: none;
+    border-color: #4a6fa5;
+    box-shadow: 0 0 0 2px rgba(74, 111, 165, 0.2);
+}
+
+/* Footer section */
+.footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid #e0e0e0;
+}
+
+.total-hours {
+    font-weight: bold;
+    font-size: 18px;
+    color: #333;
+    margin: 0;
+}
+
+.actions {
+    display: flex;
+    gap: 10px;
+}
+
+.save-button {
+    background-color: #2ecc71;
+    color: white;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.save-button:hover {
+    background-color: #27ae60;
+}
+
+.admin-button {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.admin-button:hover {
+    background-color: #2980b9;
+}
+
+/* Drafts section */
+.drafts-section {
+    margin-top: 30px;
+    background-color: white;
+    padding: 20px;
+    border-radius: 6px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.drafts-section h3 {
+    margin-top: 0;
+    color: #333;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.drafts-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.drafts-table th {
+    background-color: #4a6fa5;
+    color: white;
+    padding: 10px;
+    text-align: left;
+}
+
+.drafts-table td {
+    padding: 10px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.drafts-table tr:nth-child(even) {
+    background-color: #f5f5f5;
+}
+
+.drafts-table tr:hover {
+    background-color: #f0f0f0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .header {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .user-controls {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .calendar-table {
+        font-size: 14px;
+    }
+
+    .hours-input {
+        width: 50px;
+    }
+
+    .footer {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    input[disabled] {
+        background-color: #e0e0e0;
+        cursor: not-allowed;
+    }
+
+    .remarks-section {
+        margin-top: 1rem;
+    }
+
+    .btn-group {
+        margin-top: 1rem;
+        display: flex;
+        gap: 1rem;
+    }
+
+    .status {
+        margin-top: 1rem;
+        font-weight: bold;
+    }
+
+    /* calendar.component.css */
+    [disabled] {
+        background-color: #eee;
+        cursor: not-allowed;
+    }
+
+    .holiday {
+    background-color: gray !important;
+    }
+
+    .disabled {
+    background-color: gray !important;
+    cursor: not-allowed;
+    color: #999 !important;
+    }
+
+    .hours-input.holiday {
+    background-color: gray !important;
+    cursor: not-allowed;
+    color: #999 !important; /* Only !important where needed */
+}
+
+    .holiday-label {
+    color: #d9534f !important;
+    font-size: 0.75rem;
+    font-weight: bold !important;
+    margin-top: 4px;
+    }
+
+}

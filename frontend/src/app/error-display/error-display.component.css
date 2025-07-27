@@ -1,0 +1,11 @@
+.error-container {
+    margin: 1rem 0;
+  }
+  .error-message {
+    color: #dc3545;
+    padding: 0.5rem;
+    margin: 0.5rem 0;
+    border: 1px solid #f5c2c7;
+    border-radius: 4px;
+    background-color: #f8d7da;
+  }

@@ -1,0 +1,47 @@
+<!-- Animation de chargement -->
+<div *ngIf="isLoading" class="loading-overlay">
+  <div class="loading-spinner"></div>
+</div>
+
+<!-- Message d'erreur -->
+<div *ngIf="isError" class="error-banner">
+  <span>Une erreur est survenue. Veuillez rafraîchir la page.</span>
+  <button (click)="simulateError()" class="close-btn">×</button>
+</div>
+<!-- Header -->
+<header class="header">
+  <div class="title">{{title}}</div>
+  <nav class="nav">
+    <!-- Liens pour utilisateurs non connectés -->
+    <ng-container *ngIf="!isLoggedIn">
+      <a routerLink="/home" routerLinkActive="active">Home</a>
+      <a routerLink="/register" routerLinkActive="active">Register</a>
+      <a routerLink="/login" routerLinkActive="active">Login</a>
+    </ng-container>
+
+    <!-- Liens pour utilisateurs connectés -->
+    <ng-container *ngIf="isLoggedIn">
+      <a routerLink="/users" routerLinkActive="active">Admin</a>
+      <a routerLink="/timesheet" routerLinkActive="active">TimeSheet</a>
+      <!--<a routerLink="/profile" routerLinkActive="active">Profile</a>-->
+      <a routerLink="/absence">Absence</a>
+      <a (click)="logout()" class="logout-link" role="button" tabindex="0">
+        Logout
+      </a>
+      <span class="welcome-msg" *ngIf="currentUser">
+        Welcome, {{currentUser.name || currentUser.email}}
+      </span>
+    </ng-container>
+  </nav>
+</header>
+<!-- Main content -->
+<main class="main-content" [class.blur]="isLoading">
+  <router-outlet></router-outlet>
+</main>
+
+<!-- Footer -->
+<footer class="footer">
+  <p>&copy; {{currentYear}} {{title}}. All rights reserved.</p>
+  <div class="version">v1.0.0</div>
+</footer>
+<!--<app-dashboard-approbateur></app-dashboard-approbateur>-->

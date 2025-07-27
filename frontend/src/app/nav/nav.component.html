@@ -1,0 +1,20 @@
+<nav class="navbar">
+    <div class="container">
+        <a routerLink="/" class="navbar-brand">TimeSheet App</a>
+
+        <div class="navbar-menu">
+            <!-- Non connecté -->
+            <div *ngIf="!isLoggedIn" class="navbar-start">
+                <a routerLink="/home" class="navbar-item">Home</a>
+                <a routerLink="/register" class="navbar-item">Register</a>
+                <a routerLink="/login" class="navbar-item">Login</a>
+            </div>
+
+            <!-- Connecté -->
+            <div *ngIf="isLoggedIn" class="navbar-start">
+                <a routerLink="/timesheet" class="navbar-item">TimeSheet</a>
+                <a class="navbar-item" (click)="logout()">Logout</a>
+            </div>
+        </div>
+    </div>
+</nav>

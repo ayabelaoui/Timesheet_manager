@@ -1,0 +1,31 @@
+<div class="container">
+    <h2>Feuilles à valider</h2>
+
+    <div *ngFor="let feuille of feuilles" class="feuille-card">
+        <div class="feuille-info">
+            <p><strong>Employé:</strong> {{ feuille.employeName }}</p>
+            <p><strong>Mois:</strong> {{ feuille.mois }}</p>
+            <p><strong>Heures totales:</strong> {{ feuille.totalHeures }}</p>
+            <p><strong>ID Feuille:</strong> {{ feuille.id }}</p>
+            <p><strong>Statut:</strong> {{ feuille.statut }}</p>
+        </div>
+
+        <div class="button-group">
+            <button class="valider" (click)="valider(feuille.id)">✅ Approuver</button>
+            <button class="rejeter" (click)="feuille.showRejet = !feuille.showRejet">❌ Rejeter</button>
+        </div>
+
+        <div *ngIf="feuille.showRejet" class="rejet-form">
+            <label for="remark">Remarque :</label>
+            <textarea [(ngModel)]="feuille.remarque" rows="3" placeholder="Saisissez la raison du rejet..."></textarea>
+            <button class="submit-rejet" (click)="rejeter(feuille.id, feuille.remarque)">Soumettre le rejet</button>
+        </div>
+    </div>
+</div>
+
+<h3>Liste des approbateurs</h3>
+<ul>
+    <li *ngFor="let approbateur of approbateurs">
+        {{ approbateur.username }} - {{ approbateur.email }}
+    </li>
+</ul>
