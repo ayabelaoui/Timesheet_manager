@@ -88,10 +88,10 @@ export class AuthService {
       map(response => {
         // Store token and user info
         this.tokenStorage.saveToken(response.token);
-        this.tokenStorage.saveRefreshToken(response.refreshToken);
+       // this.tokenStorage.saveRefreshToken(response.refreshToken);
         this.tokenStorage.saveUser(response.user);
         this.currentUserSubject.next(response.user);
-        this.startRefreshTokenTimer();
+     //   this.startRefreshTokenTimer();
         this.currentUserSubject.next(response.user);
         return response.user;
       }),
@@ -101,7 +101,7 @@ export class AuthService {
 
   private startRefreshTokenTimer(): void {
   const token = this.tokenStorage.getToken();
-  
+
   if (!token) {
     console.warn('No token available to start refresh timer');
     return;
@@ -111,7 +111,7 @@ export class AuthService {
     const jwtToken = JSON.parse(atob(token.split('.')[1]));
     const expires = new Date(jwtToken.exp * 1000);
     const timeout = expires.getTime() - Date.now() - (60 * 1000); // Refresh 1 minute before expiration
-    
+
     this.refreshTokenTimeout = setTimeout(() => this.refreshToken().subscribe(), timeout);
   } catch (error) {
     console.error('Error parsing JWT token:', error);

@@ -23,7 +23,8 @@ import com.employe.model.Role;
 import com.employe.model.User;
 import com.employe.repository.RoleRepository;
 import com.employe.repository.UserRepository;
-
+import com.employe.exception.ResourceNotFoundException;
+import com.employe.exception.BadRequestException;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -146,8 +147,51 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO updateUser(Long id, UpdateUserDTO userDTO) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public UserDTO updateUser(Long id, UpdateUserDTO updateUserDTO) {
+        // Find the existing user
+        User existingUser = userRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + id));
+
+        // Update only the allowed fields from the DTO
+        if (updateUserDTO.getName() != null) {
+            existingUser.setName(updateUserDTO.getName());
+        }
+
+        if (updateUserDTO.getHireDate() != null) {
+            existingUser.setHireDate(updateUserDTO.getHireDate());
+        }
+        if (updateUserDTO.getSupervisorId() != null) {
+            User supervisor = userRepository.findById(updateUserDTO.getSupervisorId())
+                    .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + id));
+
+            existingUser.setSupervisor(supervisor);
+        }
+        if (updateUserDTO.getHourlyRate() != null) {
+            existingUser.setHourlyRate(updateUserDTO.getHourlyRate());
+        }
+
+        if (updateUserDTO.getEmail() != null) {
+            // Check if email is already taken by another user
+            if (userRepository.existsByEmailAndIdNot(updateUserDTO.getEmail(), id)) {
+                throw new BadRequestException("Email is already in use by another account");
+            }
+            existingUser.setEmail(updateUserDTO.getEmail());
+        }
+
+        // Update roles if provided
+        if (updateUserDTO.getRoles() != null && !updateUserDTO.getRoles().isEmpty()) {
+            Set<Role> roles = updateUserDTO.getRoles().stream()
+                    .map(roleName -> roleRepository.findByName(roleName)
+                            .orElseThrow(() -> new ResourceNotFoundException("Role not found: " + roleName)))
+                    .collect(Collectors.toSet());
+            existingUser.setRoles(roles);
+        }
+
+        // Save the updated user
+        User updatedUser = userRepository.save(existingUser);
+
+        // Convert to DTO and return
+        return modelMapper.map(updatedUser, UserDTO.class);
     }
 
     public UserDTO convertToDto(User user) {

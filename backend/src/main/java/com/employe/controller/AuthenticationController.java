@@ -31,9 +31,11 @@ import com.employe.repository.UserRepository;
 import com.employe.security.JwtUtil;
 import com.employe.service.RefreshTokenService;
 import com.employe.service.UserService;
-
+import com.employe.repository.RefreshTokenRepository;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import java.util.Optional;
+import java.time.Instant;
 
 @RestController
 @RequestMapping("/auth")
@@ -47,6 +49,7 @@ public class AuthenticationController {
     private final UserService userService;
     private final RoleRepository roleRepository; // Ajouté pour chercher les rôles
     private final RefreshTokenService refreshTokenService;
+    private final RefreshTokenRepository refreshTokenRepository;
 
     // LOGIN Endpoint
     @PostMapping(path = "/login", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -81,11 +84,15 @@ public class AuthenticationController {
             }
             String token = jwtUtil.generateToken(user.getEmail());
 
+            // 4. Generate refresh token (using refreshTokenService)
+            RefreshToken refreshToken = refreshTokenService.createRefreshToken(user.getId());
+            String strRefreshToken = refreshToken.getToken();
             // return ResponseEntity.ok(new AuthResponse(token));
             return ResponseEntity.ok()
                     .body(Map.of(
                             "success", true,
                             "token", token,
+                            "refreshToken",strRefreshToken,
                             "user", user,
                             "message", "Utilisateur authentifié avec succès !"));
         } catch (Exception e) {
@@ -94,10 +101,30 @@ public class AuthenticationController {
         }
     }
 
-     @PostMapping("/refresh-token")
-    public ResponseEntity<?> refreshtoken(@Valid @RequestBody RefreshTokenRequest request) {
-        String requestRefreshToken = request.getRefreshToken();
+    /* @PostMapping("/refresh-token")
+     public ResponseEntity<?> refreshtoken(@Valid @RequestBody RefreshTokenRequest request) {
+         String requestRefreshToken = request.getRefreshToken();
 
+         // Early check for token existence (optional)
+        // RefreshToken refreshToken = refreshTokenRepository.findByToken(requestRefreshToken)
+          //       .orElseThrow(() -> new TokenRefreshException("Refresh token not found!"));
+
+         // Verify expiration (delegate to service)
+         //refreshTokenService.verifyExpiration(refreshToken);
+
+         // Proceed with token generation
+         User user = refreshToken.getUser();
+         String newJwtToken = jwtUtil.generateToken(user.getName());
+         RefreshToken newRefreshToken = refreshTokenService.createRefreshToken(user.getId());
+
+         return ResponseEntity.ok(new RefreshTokenResponse(newJwtToken, newRefreshToken.getToken()));
+     }*/
+    /*public ResponseEntity<?> refreshtoken(@Valid @RequestBody RefreshTokenRequest request) {
+        String requestRefreshToken = request.getRefreshToken();
+         Optional<RefreshToken> refreshToken = refreshTokenRepository.findByToken(requestRefreshToken);
+         if (!refreshToken.isEmpty() && refreshToken.get().getExpiryDate().isBefore(Instant.now())) {
+             throw new TokenRefreshException(refreshToken.getToken(), "Refresh token was expired. Please make a new signin request");
+         }
         
         return refreshTokenService.findByToken(requestRefreshToken)
             .map(refreshTokenService::verifyExpiration)
@@ -114,7 +141,7 @@ public class AuthenticationController {
             })
             .orElseThrow(() -> new TokenRefreshException(requestRefreshToken,
                 "Refresh token is not in database!"));
-    }
+    }*/
 
     // REGISTER Endpoint
     @PostMapping(path = "/register", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
